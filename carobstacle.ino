@@ -60,7 +60,44 @@ Serial.begin(9600); // Starts the serial communication
 
 void loop()
 {
-// Find distance Sonar….
+readRight();
+readLeft();
+
+//driving the robot
+if (distance < 20 || distance2 < 20) { stopMotors(); delay (500); 
+    lookRight();lookLeft();
+    if (distance < distance2) { turnRight(); delay (1000); } 
+    if (distance > distance2){ turnLeft(); delay (1000);}
+    if (distance == distance2){ revers(); delay (1000);}
+}
+
+if (distance > 20 || distance2 > 20){ forward();
+}
+}
+  
+//SERVO
+void lookRight(){  
+  servo_motor.write(50);
+  servo_motor2.write(115);
+  delay(500);
+  readRight();
+  servo_motor.write(115);
+  servo_motor2.write(50);
+  return distance;
+}
+
+void lookLeft(){
+  servo_motor.write(170);
+  servo_motor2.write(115);
+  delay(500);
+  readLeft();
+  servo_motor.write(115);
+  servo_motor2.write(170);
+  delay(100);
+}
+
+void readRight(){  
+  // Find distance Sonar….
 // Clears the trigPin
 digitalWrite(trigPin, LOW);
 delayMicroseconds(2);
@@ -75,8 +112,10 @@ distance= duration*0.034/2;
 // Prints the distance on the Serial Monitor
 Serial.print("Distance1: ");
 Serial.println(distance);
+}
 
-// Find distance Sonar2….
+void readLeft(){  
+  // Find distance Sonar2….
 // Clears the trigPin
 digitalWrite(trig2Pin, LOW);
 delayMicroseconds(2);
@@ -92,41 +131,7 @@ distance2= duration2*0.034/2;
 Serial.print("Distance2: ");
 Serial.println(distance2);
 
-//driving the robot
-if (distance < 20 || distance2 < 20) { stopMotors(); delay (500); if (distance < distance2) { turnRight(); delay (1000); } if (distance > distance2)
-{ turnLeft();
-delay (1000);
 }
-
-if (distance == distance2)
-{ revers();
-delay (1000);
-}
-}
-
-if (distance > 20) forward();
-
-}
-////SERVO
-//int lookRight(){  
-//  servo_motor.write(50);
-//  servo_motor2.write(115);
-//  delay(500);
-//  servo_motor.write(115);
-//  servo_motor2.write(50);
-//  return distance;
-//}
-//
-//int lookLeft(){
-//  servo_motor.write(170);
-//  servo_motor2.write(115);
-//  delay(500);
-//
-//  servo_motor.write(115);
-//  servo_motor2.write(170);
-//  return distance;
-//  delay(100);
-//}
 
 void revers()
 {
